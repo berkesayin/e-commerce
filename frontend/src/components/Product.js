@@ -4,6 +4,9 @@ import React from "react";
 // importing components from react-bootstrap:
 import { Card } from "react-bootstrap";
 
+// importing Rating component
+import Rating from "./Rating";
+
 const Product = (props) => {
   return (
     <Card className="my-3 p-3 rounded">
@@ -19,15 +22,13 @@ const Product = (props) => {
         </a>
 
         <Card.Text as="div">
-          <div className="my-3">
-            {props.product.rating} from {props.product.numReviews} reviews
-          </div>
+          <Rating
+            value={props.product.rating}
+            text={`${props.product.numReviews} reviews`}
+          />
         </Card.Text>
 
-        <Card.Text as="h3">
-            ${props.product.price}
-        </Card.Text>
-
+        <Card.Text as="h3">${props.product.price}</Card.Text>
       </Card.Body>
     </Card>
   );
