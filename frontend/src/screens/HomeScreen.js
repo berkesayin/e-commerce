@@ -1,16 +1,25 @@
 // rafce + enter: react arrow function component export
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // importing components from react-bootstrap
 import { Row, Col } from "react-bootstrap";
 
-// importing products.js file (products array)
-import products from "../products";
-
 // importing Product component
 import Product from "../components/Product";
 
+import axios from "axios";
+
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const {data} = await axios.get("/api/products");
+      setProducts(data);
+    };
+    fetchProducts();  
+  }, []);
+
   return (
     <>
       <h1>Latest Products</h1>

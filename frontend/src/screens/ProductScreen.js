@@ -1,29 +1,29 @@
 // rafce + enter: react arrow function component export
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // importing Link from react-router-dom package:
 import { Link, useParams } from "react-router-dom";
 
 // importing components from react-bootstrap
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button
-} from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 
 // importing Rating component
 import Rating from "../components/Rating";
 
-// importing products from products.js (products array)
-import products from "../products";
+import axios from "axios";
 
 const ProductScreen = () => {
+  const [product, setProduct] = useState({});
+
   const { id } = useParams();
 
-  const product = products.find((p) => p._id === id);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
 
   return (
     <div>
@@ -73,7 +73,11 @@ const ProductScreen = () => {
               </ListGroup.Item>
 
               <ListGroup.Item>
-                <Button className="btn-block" type="button" disabled={product.countInStock === 0}>
+                <Button
+                  className="btn-block"
+                  type="button"
+                  disabled={product.countInStock === 0}
+                >
                   Add To Cart
                 </Button>
               </ListGroup.Item>
