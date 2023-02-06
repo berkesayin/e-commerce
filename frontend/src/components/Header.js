@@ -1,10 +1,6 @@
 // rafce + enter: react arrow function component export shortcut
 import React from "react";
-
-// importing LinkContainer from react-router-bootstrap:
 import { LinkContainer } from "react-router-bootstrap";
-
-// importing components from react-bootstrap
 import { Container, Nav, Navbar } from "react-bootstrap";
 
 const Header = () => {

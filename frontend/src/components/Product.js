@@ -1,13 +1,7 @@
 // rafce + enter: react arrow function component export
 import React from "react";
-
-// importing components from react-bootstrap:
 import { Card } from "react-bootstrap";
-
-// importing Rating component
 import Rating from "./Rating";
-
-// importing Link from react-router-dom package:
 import { Link } from 'react-router-dom';
 
 const Product = (props) => {

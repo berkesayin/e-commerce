@@ -1,7 +1,5 @@
 // rafce + enter: react arrow function component export shortcut
 import React from "react";
-
-// importing components from react-bootstrap
 import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => {
