@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import products from './data/products.js';
 import connectDB from './config/db.js';
 import colors from 'colors';
+import productRoutes from './routes/productRoutes.js';
 
 dotenv.config();
 
@@ -18,16 +19,7 @@ app.get("/", (req, res) => {
 });
 // Burada localhost:5000'e gittiğimizde "API is running..." yazdırıldığını görürüz.
 
-// creating the route to get all the products as json (we use at HomeScreen)
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
-
-// creating the route to get specific product by product._id as json (we use at ProductScreen)
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
+app.use('/api/products/', productRoutes);
 
 const PORT = process.env.PORT || 5000
 
