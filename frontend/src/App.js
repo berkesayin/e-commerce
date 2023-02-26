@@ -4,22 +4,12 @@ import React from "react";
 şeklinde export edildikleri için burada {} içerisinde belirtmeye gerek olmadan Header, Footer diyerek 
 import edebiliyoruz. */
 
-// importing components from react-bootstrap
 import { Container } from "react-bootstrap";
-
-// importing Header.js component:
 import Header from "./components/Header";
-
-// importing Footer.js component:
 import Footer from "./components/Footer";
-
-// importing HomeScreen.js component:
 import HomeScreen from "./screens/HomeScreen";
-
-// importing Product.js component:
 import ProductScreen from "./screens/ProductScreen";
-
-// importing Routes and Route from react-router-dom package:
+import CartScreen from "./screens/CartScreen";
 import { Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -31,6 +21,10 @@ const App = () => {
           <Routes>
             <Route path='/' element={<HomeScreen />} exact />
             <Route path='/product/:id' element={<ProductScreen />} />
+            <Route path='/cart' element={<CartScreen />} />
+            <Route path='/cart/:id' element={<CartScreen />} />
+            {/* <Route path='/cart/:id?' element={<CartScreen />} /> */}
+            {/* <Route path='/cart/:id?qty=:qty' element={<CartScreen />} /> */}
           </Routes>
         </Container>
       </main>
