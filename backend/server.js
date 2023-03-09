@@ -4,6 +4,7 @@ import products from "./data/products.js";
 import connectDB from "./config/db.js";
 import colors from "colors";
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -13,6 +14,8 @@ connectDB();
 // app değişkeni ile express'i initialize edelim
 const app = express();
 
+app.use(express.json());
+
 
 // respond with "API is running" when a GET request is made to the homepage
 app.get("/", (req, res) => {
@@ -21,6 +24,8 @@ app.get("/", (req, res) => {
 // Burada localhost:5000'e gittiğimizde "API is running..." yazdırıldığını görürüz.
 
 app.use("/api/products/", productRoutes);
+
+app.use("/api/users/", userRoutes);
 
 app.use(notFound)
 
