@@ -12,10 +12,10 @@ const authUser = asyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
 
-  //   res.send({
-  //     email,
-  //     password,
-  //   })
+  // res.send({
+  //   email,
+  //   password,
+  // })
 
   const user = await User.findOne({ email });
 
@@ -33,4 +33,26 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser };
+// @desc     Get user profile
+// @route    GET /api/users/profile
+// @access   Private route (token needed)
+
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  // check for user
+  if(user) {
+    // return that for the logged in user
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(404); // Not Found
+    throw new Error('User Not Found')
+  }
+});
+
+export { authUser, getUserProfile };
