@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
+
 // @desc     Auth user & get token
 // @route    POST /api/users/login
 // @access   Public route (No token needed)
@@ -33,6 +34,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 // @desc     Get user profile
 // @route    GET /api/users/profile
 // @access   Private route (token needed)
@@ -54,6 +56,43 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User Not Found");
   }
 });
+
+
+// @desc     Update user profile
+// @route    PUT /api/users/profile
+// @access   Private route (token needed)
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  // check for user
+  if (user) {
+    // return that for the logged in user
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+
+    // check if the password was sent
+    if(req.body.password){
+      user.password = req.body.password
+      // password will be encrypted automatically, because we add some middleware at models/userModel.js
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+
+  } else {
+    res.status(404); // Not Found
+    throw new Error("User Not Found");
+  }
+});
+
 
 // @desc     Register a new user
 // @route    POST /api/users
@@ -99,4 +138,4 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, getUserProfile };
+export { authUser, registerUser, getUserProfile, updateUserProfile };
