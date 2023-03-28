@@ -5,7 +5,8 @@ import {
   Link,
   useParams,
   useLocation,
-  useSearchParams,
+  useNavigate,
+  // useSearchParams,
 } from "react-router-dom";
 import {
   Row,
@@ -15,7 +16,7 @@ import {
   Form,
   Button,
   Card,
-  ListGroupItem,
+  // ListGroupItem,
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../actions/cartActions";
@@ -40,6 +41,11 @@ const CartScreen = () => {
   const productId = id;
 
   const { search } = useLocation();
+
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   /* 
   const qty = search; 
@@ -83,6 +89,12 @@ const CartScreen = () => {
     // history.push('/login?redirect=shipping')
     // history.push yerine aşağıdaki çözüm kullanılmalı
     // https://stackoverflow.com/questions/70768227/redirect-react-router-dom-v6
+    if(!userInfo){
+      // navigate("/login?redirect=shipping");
+      navigate("/login")
+    } else {
+      navigate("/shipping");
+    }
   };
 
   return (
