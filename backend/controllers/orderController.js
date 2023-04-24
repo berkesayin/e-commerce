@@ -2,6 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 const router = express.Router(); // express.js Router özelliği
 import Order from "../models/orderModel.js";
+import User from "../models/userModel.js";
 
 // @desc     Create new order
 // @route    POST /api/orders
@@ -42,4 +43,24 @@ const addOrderItems = asyncHandler(async (req, res) => {
   }
 });
 
-export { addOrderItems };
+// @desc     Get order by ID
+// @route    GET /api/orders/:id
+// @access   Private route (token needed)
+
+// function to get an order by ID
+const getOrderById = asyncHandler(async (req, res) => {
+  // fetch orders
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Order not found!");
+  }
+});
+
+export { addOrderItems, getOrderById };
