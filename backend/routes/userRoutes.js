@@ -5,10 +5,11 @@ import {
   registerUser,
   getUserProfile,
   updateUserProfile,
+  getUsers,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
-router.route("/").post(registerUser); // => POST /api/users
+router.route("/").post(registerUser).get(protect, admin, getUsers); // => POST /api/users ve GET/api/users
 router.post("/login", authUser); // => POST /api/users/login
 router
   .route("/profile")

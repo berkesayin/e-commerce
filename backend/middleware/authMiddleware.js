@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
-
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
@@ -26,8 +25,8 @@ const protect = asyncHandler(async (req, res, next) => {
 
       // fetch the user, note: we don't want it to return password
       req.user = await User.findById(decoded.id).select("-password");
-      // we put all the User data (except for password) in this req.user, 
-      // so that now we will have access to all of our protected routes 
+      // we put all the User data (except for password) in this req.user,
+      // so that now we will have access to all of our protected routes
 
       next();
     } catch (error) {
@@ -44,7 +43,13 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
+const admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401); // Not Authorized
+    throw new Error("Not Authorized As Admin");
+  }
+};
 
-
-
-export { protect };
+export { protect, admin };
